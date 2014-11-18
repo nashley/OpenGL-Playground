@@ -2,9 +2,9 @@
 
 This repository is comprised of a set of OpenGL programs designed explicitly for testing functionality as well as acquainting the developers with the API, its concepts, and its various implementations.
 
-### What is this repository for? ###
+### Yentup's fork ###
 
-* This project is under heavy development and will, in all likelihood, not come to a conclusive fruition. Instead, a separate repository will be created once the developers have been sufficiently educated and inspired by these learning exercises.
+Using [linmath.h](https://github.com/datenwolf/linmath.h) and just messing around.
 
 ### Important Notes ###
 
