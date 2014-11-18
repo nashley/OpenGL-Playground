@@ -43,6 +43,8 @@ int main() {
 		return -1;
 	}
 
+	// Pre loop
+	////////
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
 	GLuint vert_arr;
@@ -62,9 +64,11 @@ int main() {
 	glGenBuffers(1, &vert_buff);
 	glBindBuffer(GL_ARRAY_BUFFER, vert_buff);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	////////
 
 	while (!glfwWindowShouldClose(window)) {
 		// Render
+		////////
 		glClear(GL_COLOR_BUFFER_BIT);
 		glUseProgram(prog); // Use shaders
 
@@ -82,6 +86,7 @@ int main() {
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
 		glDisableVertexAttribArray(0);
+		////////
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
