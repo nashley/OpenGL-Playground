@@ -1,0 +1,18 @@
+#! /bin/bash
+
+printf "CC=gcc
+CFLAGS=-c -O3
+LDLIBS=$(pkg-config --static --libs glfw3 glew)
+LDFLAGS=$(pkg-config --cflags glfw3 glew)
+EXECUTABLE=test
+SOURCES=$(echo $(cd src; ls *.c))\n"\
+$'OBJECTS=$(SOURCES:.c=.o)
+VPATH=src
+all: $(SOURCES) $(EXECUTABLE)
+$(EXECUTABLE): $(OBJECTS)
+	$(CC) -o $(EXECUTABLE) $(OBJECTS) $(LDLIBS) $(LDFLAGS)
+.c.o:
+	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
+clean:
+	rm -f $(OBJECTS) $(EXECUTABLE)
+' > makefile
