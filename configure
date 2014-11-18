@@ -4,7 +4,7 @@ printf "CC=gcc
 CFLAGS=-c -O3
 LDLIBS=$(pkg-config --static --libs glfw3 glew)
 LDFLAGS=$(pkg-config --cflags glfw3 glew)
-EXECUTABLE=test
+EXECUTABLE=main
 SOURCES=$(echo $(cd src; ls *.c))\n"\
 $'OBJECTS=$(SOURCES:.c=.o)
 VPATH=src
