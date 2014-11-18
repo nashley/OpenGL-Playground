@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 #include <glew.h>
 #include <GLFW/glfw3.h>
@@ -65,6 +67,29 @@ int main() {
 	glGenBuffers(1, &vert_buff);
 	glBindBuffer(GL_ARRAY_BUFFER, vert_buff);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+	mat4x4 projection, view, model;
+	mat4x4_perspective(
+		projection,
+		M_PI / 4.0f, // 45 deg fov
+		4.0f / 3.0f, // 4:3 ratio
+		0.1f,        // display range : 0.1 unit <-> 100 units
+		100.0f
+	);
+	mat4x4_look_at(
+		view,
+		(vec3) {4.0f, 3.0f, 3.0f}, // eye
+		(vec3) {0.0f, 0.0f, 0.0f}, // center
+		(vec3) {0.0f, 1.0f, 0.0f}  // up
+	);
+	mat4x4_identity(model);
+
+	// projection * view * model
+	mat4x4 temp, MVP;
+	mat4x4_mul(temp, projection, view);
+	mat4x4_mul(MVP, temp, model);
+
+	GLuint matrix = glGetUniformLocation(prog, "MVP");
 	////////
 
 	while (!glfwWindowShouldClose(window)) {
@@ -72,6 +97,7 @@ int main() {
 		////////
 		glClear(GL_COLOR_BUFFER_BIT);
 		glUseProgram(prog); // Use shaders
+		glUniformMatrix4fv(matrix, 1, GL_FALSE, &MVP[0][0]);
 
 		glEnableVertexAttribArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, vert_buff);
