@@ -25,7 +25,7 @@ void calc_matrices(mat4x4* M) {
 	static float fov = M_PI / 4.0f; // 45 deg
 
 	static float speed = 4.0f; // 4 units / second
-	static float mouse_speed = 0.004f;
+	static float mouse_speed_factor = 250.0f;
 
 	static vec3 pos = {3.5, 3, 3};
 	double xpos, ypos;
@@ -34,8 +34,8 @@ void calc_matrices(mat4x4* M) {
 	glfwSetCursorPos(window, 1024/2, 768/2); // Reset mouse
 
 	// New orientation
-	hang += mouse_speed * (float) (1024/2 - xpos);
-	vang += mouse_speed * (float) ( 768/2 - ypos);
+	hang += (float) (1024/2 - xpos) / mouse_speed_factor;
+	vang += (float) ( 768/2 - ypos) / mouse_speed_factor;
 
 	vec3 dir = {
 		cosf(vang) * sinf(hang),
