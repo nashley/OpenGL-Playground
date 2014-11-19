@@ -1,6 +1,6 @@
 #include "control.h"
 
-void calc_matrices(mat4x4* M) {
+void calc_matrices(GLFWwindow* window, mat4x4* M) {
 	static double last_time = -1;
 	if (last_time == -1)
 		last_time = glfwGetTime();

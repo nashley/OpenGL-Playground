@@ -7,8 +7,6 @@
 
 #include "util/linmath.h"
 
-extern GLFWwindow* window; // Defined in main.c
-
-void calc_matrices(mat4x4* M);
+void calc_matrices(GLFWwindow* window, mat4x4* M);
 
 #endif

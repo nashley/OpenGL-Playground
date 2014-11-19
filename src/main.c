@@ -10,9 +10,6 @@
 #include "util/Shaders.h"
 #include "control.h"
 
-// Global vars
-GLFWwindow* window;
-
 int main() {
 	if (!glfwInit()) {
 		fprintf(stderr, "glfw init failed\n");
@@ -25,6 +22,7 @@ int main() {
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
+	GLFWwindow* window;
 	window = glfwCreateWindow(1024, 768, "Hello, World", NULL, NULL);
 	if (!window) {
 		fprintf(stderr, "glfw: failed to create window\n");
@@ -163,7 +161,7 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glUseProgram(prog); // Use shaders
 
-		calc_matrices(&MVP);
+		calc_matrices(window, &MVP);
 		glUniformMatrix4fv(matrix, 1, GL_FALSE, &MVP[0][0]);
 
 		glEnableVertexAttribArray(0);
