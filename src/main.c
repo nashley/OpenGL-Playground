@@ -11,7 +11,7 @@
 
 // Global vars
 GLFWwindow* window;
-vec3 pos = {0, 5, -0.5};
+vec3 pos = {3.5, 3, 3};
 
 void calc_matrices(mat4x4 M) {
 	static double last_time = -1;
@@ -20,8 +20,8 @@ void calc_matrices(mat4x4 M) {
 	double curr_time = glfwGetTime();
 	float delta_time = (float) (curr_time - last_time);
 
-	static float hang = M_PI; // Horizontal angle (toward -Z)
-	static float vang = 0.0f; // Vertical angle (0 at the horizon)
+	static float hang = M_PI * 4.0f / 3.0f; // Horizontal angle (toward -Z)
+	static float vang = M_PI / 3.0f; // Vertical angle (0 at the horizon)
 	static float fov = M_PI / 4.0f; // 45 deg
 
 	static float speed = 4.0f; // 4 units / second
