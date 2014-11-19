@@ -13,12 +13,13 @@
 GLFWwindow* window;
 vec3 pos = {3.5, 3, 3};
 
-void calc_matrices(mat4x4 M) {
+void calc_matrices(mat4x4* M) {
 	static double last_time = -1;
 	if (last_time == -1)
 		last_time = glfwGetTime();
 	double curr_time = glfwGetTime();
 	float delta_time = (float) (curr_time - last_time);
+	last_time = curr_time;
 
 	static float hang = M_PI * 4.0f / 3.0f; // Horizontal angle (toward -Z)
 	static float vang = M_PI / 3.0f; // Vertical angle (0 at the horizon)
@@ -27,7 +28,7 @@ void calc_matrices(mat4x4 M) {
 	static float speed = 4.0f; // 4 units / second
 	static float mouse_speed = 0.004f;
 
-	static double xpos, ypos;
+	double xpos, ypos;
 
 	glfwGetCursorPos(window, &xpos, &ypos);
 	glfwSetCursorPos(window, 1024/2, 768/2); // Reset mouse
@@ -103,9 +104,7 @@ void calc_matrices(mat4x4 M) {
 	// projection * view * model
 	mat4x4 tempM;
 	mat4x4_mul(tempM, projection, view);
-	mat4x4_mul(M, tempM, model);
-
-	last_time = curr_time;
+	mat4x4_mul(*M, tempM, model);
 }
 
 int main() {
@@ -258,7 +257,7 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glUseProgram(prog); // Use shaders
 
-		calc_matrices(MVP);
+		calc_matrices(&MVP);
 		glUniformMatrix4fv(matrix, 1, GL_FALSE, &MVP[0][0]);
 
 		glEnableVertexAttribArray(0);
