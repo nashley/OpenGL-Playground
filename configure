@@ -5,7 +5,7 @@ CFLAGS=-c -O3
 LDLIBS=$(pkg-config --static --libs glfw3 glew) -lm
 LDFLAGS=$(pkg-config --cflags glfw3 glew)
 EXECUTABLE=main
-SOURCES=$(echo $(find src -type f | grep "\.c"))\n"\
+SOURCES=$(echo $(find src -type f | grep "\.c$"))\n"\
 $'OBJECTS=$(SOURCES:.c=.o)
 VPATH=
 all: $(SOURCES) $(EXECUTABLE)
