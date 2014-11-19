@@ -11,7 +11,6 @@
 
 // Global vars
 GLFWwindow* window;
-vec3 pos = {3.5, 3, 3};
 
 void calc_matrices(mat4x4* M) {
 	static double last_time = -1;
@@ -28,6 +27,7 @@ void calc_matrices(mat4x4* M) {
 	static float speed = 4.0f; // 4 units / second
 	static float mouse_speed = 0.004f;
 
+	static vec3 pos = {3.5, 3, 3};
 	double xpos, ypos;
 
 	glfwGetCursorPos(window, &xpos, &ypos);
