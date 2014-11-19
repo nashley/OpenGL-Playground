@@ -2,7 +2,7 @@
 
 printf "CC=gcc
 CFLAGS=-c -O3
-LDLIBS=$(pkg-config --static --libs glfw3 glew)
+LDLIBS=$(pkg-config --static --libs glfw3 glew) -lm
 LDFLAGS=$(pkg-config --cflags glfw3 glew)
 EXECUTABLE=main
 SOURCES=$(echo $(cd src; ls *.c))\n"\
