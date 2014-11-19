@@ -221,7 +221,7 @@ int main() {
 	);
 	mat4x4_look_at(
 		view,
-		(vec3) {4.0f, 3.0f, 4.0f}, // eye
+		(vec3) {4.0f, 3.0f, 3.0f}, // eye
 		(vec3) {0.0f, 0.0f, 0.0f}, // center
 		(vec3) {0.0f, 1.0f, 0.0f}  // up
 	);
