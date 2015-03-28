@@ -109,18 +109,35 @@ int main() {
 	cube c1;
 	cube c2;
 
-	for (int i = 0; i < 108; i++) {
-		c1.vertices[i] = tmp_vertices[i];
-		c2.vertices[i] = tmp_vertices[i] + (3 * (i % 3 ? 0 : 1));
+	cube cubes[17];
+
+	for (int i = 0; i < 108; i += 3) {
+		for (int l = i; l < i+3; l++)
+			cubes[0].vertices[l] = tmp_vertices[l];
+		for (int j = 1, k = 2; j < 17; j += 4, k += 2) {
+			cubes[j].vertices[i] = tmp_vertices[i] + k; // x
+			cubes[j].vertices[i+1] = tmp_vertices[i+1]; // y
+			cubes[j].vertices[i+2] = tmp_vertices[i+2] - k; // z
+
+			cubes[j+1].vertices[i] = tmp_vertices[i] - k; // x
+			cubes[j+1].vertices[i+1] = tmp_vertices[i+1]; // y
+			cubes[j+1].vertices[i+2] = tmp_vertices[i+2] + k; // z
+
+			cubes[j+2].vertices[i] = tmp_vertices[i] + k; // x
+			cubes[j+2].vertices[i+1] = tmp_vertices[i+1]; // y
+			cubes[j+2].vertices[i+2] = tmp_vertices[i+2] + k; // z
+
+			cubes[j+3].vertices[i] = tmp_vertices[i] - k; // x
+			cubes[j+3].vertices[i+1] = tmp_vertices[i+1]; // y
+			cubes[j+3].vertices[i+2] = tmp_vertices[i+2] - k; // z
+		}
 	}
 
-	glGenBuffers(1, &c1.vert_buff);
-	glBindBuffer(GL_ARRAY_BUFFER, c1.vert_buff);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(c1.vertices), c1.vertices, GL_STATIC_DRAW);
-
-	glGenBuffers(1, &c2.vert_buff);
-	glBindBuffer(GL_ARRAY_BUFFER, c2.vert_buff);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(c2.vertices), c2.vertices, GL_STATIC_DRAW);
+	for (int j = 0; j < 17; j++) {
+		glGenBuffers(1, &cubes[j].vert_buff);
+		glBindBuffer(GL_ARRAY_BUFFER, cubes[j].vert_buff);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(cubes[j].vertices), cubes[j].vertices, GL_STATIC_DRAW);
+	}
 
 	GLuint matrix = glGetUniformLocation(prog, "MVP");
 	mat4x4 MVP;
@@ -138,29 +155,19 @@ int main() {
 		calc_matrices(window, &MVP);
 		glUniformMatrix4fv(matrix, 1, GL_FALSE, &MVP[0][0]);
 
-		glEnableVertexAttribArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, c1.vert_buff);
-		glVertexAttribPointer(
-			0,                  // attribute
-			3,                  // size
-			GL_FLOAT,           // type
-			GL_FALSE,           // normalized?
-			0,                  // stride
-			(void*) 0           // array buffer offset
-		);
-		glDrawArrays(GL_TRIANGLES, 0, 12*3);
-
-		glEnableVertexAttribArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, c2.vert_buff);
-		glVertexAttribPointer(
-			0,                  // attribute
-			3,                  // size
-			GL_FLOAT,           // type
-			GL_FALSE,           // normalized?
-			0,                  // stride
-			(void*) 0           // array buffer offset
-		);
-		glDrawArrays(GL_TRIANGLES, 0, 12*3);
+		for (int j = 0; j < 17; j++) {
+			glEnableVertexAttribArray(0);
+			glBindBuffer(GL_ARRAY_BUFFER, cubes[j].vert_buff);
+			glVertexAttribPointer(
+				0,                  // attribute
+				3,                  // size
+				GL_FLOAT,           // type
+				GL_FALSE,           // normalized?
+				0,                  // stride
+				(void*) 0           // array buffer offset
+			);
+			glDrawArrays(GL_TRIANGLES, 0, 12*3);
+		}
 
 		glDisableVertexAttribArray(0);
 		////////
