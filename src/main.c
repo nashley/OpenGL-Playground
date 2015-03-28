@@ -112,12 +112,12 @@ int main() {
 	cube cubes[16];
 
 	for (int i = 0; i < 108; i += 3) {
-		int j = 0;
-		for (int x = -6; x < 6; x += 3) {
-			for (int y = -6; y < 6; y += 3) {
+		int j = 0, enc = 3;
+		for (int x = -(2*enc); x < (2*enc); x += enc) {
+			for (int z = -(2*enc); z < (2*enc); z += enc) {
 				cubes[j].vertices[i  ] = tmp_vertices[i  ] + x; // x
 				cubes[j].vertices[i+1] = tmp_vertices[i+1]    ; // y
-				cubes[j].vertices[i+2] = tmp_vertices[i+2] + y; // z
+				cubes[j].vertices[i+2] = tmp_vertices[i+2] + z; // z
 				j++;
 			}
 		}
