@@ -109,7 +109,7 @@ int main() {
 	cube c1;
 	cube c2;
 
-	cube cubes[17];
+	cube cubes[16];
 
 	for (int i = 0; i < 108; i += 3) {
 		int j = 0;
@@ -123,7 +123,7 @@ int main() {
 		}
 	}
 
-	for (int j = 0; j < 17; j++) {
+	for (int j = 0; j < 16; j++) {
 		glGenBuffers(1, &cubes[j].vert_buff);
 		glBindBuffer(GL_ARRAY_BUFFER, cubes[j].vert_buff);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(cubes[j].vertices), cubes[j].vertices, GL_STATIC_DRAW);
@@ -145,7 +145,7 @@ int main() {
 		calc_matrices(window, &MVP);
 		glUniformMatrix4fv(matrix, 1, GL_FALSE, &MVP[0][0]);
 
-		for (int j = 0; j < 17; j++) {
+		for (int j = 0; j < 16; j++) {
 			glEnableVertexAttribArray(0);
 			glBindBuffer(GL_ARRAY_BUFFER, cubes[j].vert_buff);
 			glVertexAttribPointer(
