@@ -60,8 +60,7 @@ int main() {
 	// Make GLSL program from shaders
 	GLuint prog = load_shaders("src/shaders/VShader.v", "src/shaders/FShader.f");
 
-	// Cube has 6 faces, 2 tri each, so 6*2=12 tri, and 12*3 vertices
-	GLfloat vertices[] = {
+	GLfloat tmp_vertices[] = {
 		-1.0f, -1.0f, -1.0f,//
 		-1.0f, -1.0f,  1.0f,
 		-1.0f,  1.0f,  1.0f,
@@ -100,25 +99,31 @@ int main() {
 		-1.0f,  1.0f,  1.0f,
 		 1.0f, -1.0f,  1.0f
 	};
-	GLuint vert_buff;
-	glGenBuffers(1, &vert_buff);
-	glBindBuffer(GL_ARRAY_BUFFER, vert_buff);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-	// Color : vertex (randomly generated)
-	srand(time(NULL));
-	GLfloat colors[108];
-	for (int i = 0; i < 108; i++)
-		colors[i] = rand() % 2;
+	typedef struct {
+		// Cube has 6 faces, 2 tri each, so 6*2=12 tri, and 12*3 vertices
+		GLfloat vertices[108];
+		GLuint vert_buff;
+	} cube;
 
-	GLuint color_buff;
-	glGenBuffers(1, &color_buff);
-	glBindBuffer(GL_ARRAY_BUFFER, color_buff);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);
+	cube c1;
+	cube c2;
+
+	for (int i = 0; i < 108; i++) {
+		c1.vertices[i] = tmp_vertices[i];
+		c2.vertices[i] = tmp_vertices[i] + (3 * (i % 3 ? 0 : 1));
+	}
+
+	glGenBuffers(1, &c1.vert_buff);
+	glBindBuffer(GL_ARRAY_BUFFER, c1.vert_buff);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(c1.vertices), c1.vertices, GL_STATIC_DRAW);
+
+	glGenBuffers(1, &c2.vert_buff);
+	glBindBuffer(GL_ARRAY_BUFFER, c2.vert_buff);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(c2.vertices), c2.vertices, GL_STATIC_DRAW);
 
 	GLuint matrix = glGetUniformLocation(prog, "MVP");
 	mat4x4 MVP;
-	GLuint line = glGetUniformLocation(prog, "line");
 	////////
 
 	while (
@@ -128,15 +133,13 @@ int main() {
 		// Render
 		////////
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // Draw outlines
-		glUniform1d(line, 1);
 		glUseProgram(prog); // Use shaders
 
 		calc_matrices(window, &MVP);
 		glUniformMatrix4fv(matrix, 1, GL_FALSE, &MVP[0][0]);
 
 		glEnableVertexAttribArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, vert_buff);
+		glBindBuffer(GL_ARRAY_BUFFER, c1.vert_buff);
 		glVertexAttribPointer(
 			0,                  // attribute
 			3,                  // size
@@ -145,27 +148,21 @@ int main() {
 			0,                  // stride
 			(void*) 0           // array buffer offset
 		);
+		glDrawArrays(GL_TRIANGLES, 0, 12*3);
 
-		glEnableVertexAttribArray(1);
-		glBindBuffer(GL_ARRAY_BUFFER, color_buff);
+		glEnableVertexAttribArray(0);
+		glBindBuffer(GL_ARRAY_BUFFER, c2.vert_buff);
 		glVertexAttribPointer(
-			1,                  // attribute
+			0,                  // attribute
 			3,                  // size
 			GL_FLOAT,           // type
 			GL_FALSE,           // normalized?
 			0,                  // stride
 			(void*) 0           // array buffer offset
 		);
-
 		glDrawArrays(GL_TRIANGLES, 0, 12*3);
 
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // Draw colors
-		glUniform1d(line, 0);
-		glUseProgram(prog); // Shaders again
-		glDrawArrays(GL_TRIANGLES, 0, 12*3); // Redraw
-
 		glDisableVertexAttribArray(0);
-		glDisableVertexAttribArray(1);
 		////////
 
 		glfwSwapBuffers(window);
@@ -174,7 +171,8 @@ int main() {
 
 	// Cleanup
 	glDeleteVertexArrays(1, &vert_arr);
-	glDeleteVertexArrays(1, &vert_buff);
+	glDeleteVertexArrays(1, &c1.vert_buff);
+	glDeleteVertexArrays(1, &c2.vert_buff);
 	glDeleteProgram(prog);
 
 	glfwDestroyWindow(window);
