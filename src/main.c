@@ -109,21 +109,26 @@ int main() {
 	cube c1;
 	cube c2;
 
-	cube cubes[16];
+	int nc = 256; // Number of cubes
+	cube cubes[nc];
 
+	float inc = 2.3f; // increment
+	float bound = 8.0f * inc; // 16, 2; 64, 4; 256, 8
 	for (int i = 0; i < 108; i += 3) {
-		int j = 0, enc = 3;
-		for (int x = -(2*enc); x < (2*enc); x += enc) {
-			for (int z = -(2*enc); z < (2*enc); z += enc) {
+		int j = 0;
+		float y;
+		for (float x = -bound; x < bound; x += inc) {
+			for (float z = -bound; z < bound; z += inc) {
+				y = (fabs(z) + fabs(x)) / 4.0f;
 				cubes[j].vertices[i  ] = tmp_vertices[i  ] + x; // x
-				cubes[j].vertices[i+1] = tmp_vertices[i+1]    ; // y
+				cubes[j].vertices[i+1] = tmp_vertices[i+1] + y; // y
 				cubes[j].vertices[i+2] = tmp_vertices[i+2] + z; // z
 				j++;
 			}
 		}
 	}
 
-	for (int j = 0; j < 16; j++) {
+	for (int j = 0; j < nc; j++) {
 		glGenBuffers(1, &cubes[j].vert_buff);
 		glBindBuffer(GL_ARRAY_BUFFER, cubes[j].vert_buff);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(cubes[j].vertices), cubes[j].vertices, GL_STATIC_DRAW);
@@ -145,7 +150,7 @@ int main() {
 		calc_matrices(window, &MVP);
 		glUniformMatrix4fv(matrix, 1, GL_FALSE, &MVP[0][0]);
 
-		for (int j = 0; j < 16; j++) {
+		for (int j = 0; j < nc; j++) {
 			glEnableVertexAttribArray(0);
 			glBindBuffer(GL_ARRAY_BUFFER, cubes[j].vert_buff);
 			glVertexAttribPointer(
