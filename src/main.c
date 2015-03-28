@@ -109,17 +109,17 @@ int main() {
 	cube c1;
 	cube c2;
 
-	int nc = 256; // Number of cubes
+	int nc = 1024; // Number of cubes
 	cube cubes[nc];
 
-	float inc = 2.3f; // increment
-	float bound = 8.0f * inc; // 16, 2; 64, 4; 256, 8
+	int inc = 2; // increment
+	float bound = 16.0f * inc; // 16, 2; 64, 4; 256, 8; 1024, 16
 	for (int i = 0; i < 108; i += 3) {
 		int j = 0;
 		float y;
 		for (float x = -bound; x < bound; x += inc) {
 			for (float z = -bound; z < bound; z += inc) {
-				y = (fabs(z) + fabs(x)) / 4.0f;
+				y = pow(M_E, 1 - log(fabs(z) / (fabs(x) +1)));
 				cubes[j].vertices[i  ] = tmp_vertices[i  ] + x; // x
 				cubes[j].vertices[i+1] = tmp_vertices[i+1] + y; // y
 				cubes[j].vertices[i+2] = tmp_vertices[i+2] + z; // z

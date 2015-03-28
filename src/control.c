@@ -12,7 +12,7 @@ void calc_matrices(GLFWwindow* window, mat4x4* M) {
 	static float vang = M_PI / 3.0f; // Vertical angle (0 at the horizon)
 	static float fov = M_PI / 4.0f; // 45 deg
 
-	static float speed = 4.0f; // 4 units / second
+	static float speed = 16.0f; // 4 units / second
 	static float mouse_speed_factor = 250.0f;
 
 	static vec3 pos = {3.5, 3, 3};
