@@ -15,8 +15,8 @@ void main() {
 		frag_color = vec3(0, 0, 0.16);
 	}
 	else {
-		frag_color[0] = 0.15;
-		frag_color[1] = 0.15;
-		frag_color[2] = 1 - (abs(pos.y + 1) / 2.0);
+		frag_color[0] = 1;
+		frag_color[1] = (abs(pos.y + 1) / 2.0);
+		frag_color[2] = 0;
 	}
 }
