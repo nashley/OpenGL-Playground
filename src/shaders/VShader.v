@@ -11,11 +11,9 @@ void main() {
 	gl_Position = MVP * v;
 
 	if (line) {
-		frag_color = vec3(0, 0, 0);
+		frag_color = vec3(0.043, 0.709, 1);
 	}
 	else {
-		frag_color[0] = (abs(pos.z + 16) / 32.0);
-		frag_color[1] = (abs(pos.y + 16) / 32.0);
-		frag_color[2] = (abs(pos.x + 16) / 32.0);
+		frag_color = vec3(0.067, 0.067, 0.067);
 	}
 }

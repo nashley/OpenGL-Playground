@@ -11,3 +11,4 @@ Screenshots:
 ![Image5](http://puu.sh/gT549/3793af53fa.png)
 ![Image6](http://puu.sh/gT6aW/43372ff07e.png)
 ![Image7](http://puu.sh/gT73d/4c54605f1e.png)
+![Image8](http://i.imgur.com/JgigxSQ.png)

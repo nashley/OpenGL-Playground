@@ -119,7 +119,7 @@ int main() {
 		float y;
 		for (float x = -bound; x < bound; x += inc) {
 			for (float z = -bound; z < bound; z += inc) {
-				y = pow(M_E, 1 - log(fabs(z) / (fabs(x) +1)));
+				y = 4 * log(fabs(z) + fabs(x) + 1);
 				cubes[j].vertices[i  ] = tmp_vertices[i  ] + x; // x
 				cubes[j].vertices[i+1] = tmp_vertices[i+1] + y; // y
 				cubes[j].vertices[i+2] = tmp_vertices[i+2] + z; // z
