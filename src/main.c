@@ -112,24 +112,14 @@ int main() {
 	cube cubes[17];
 
 	for (int i = 0; i < 108; i += 3) {
-		for (int l = i; l < i+3; l++)
-			cubes[0].vertices[l] = tmp_vertices[l];
-		for (int j = 1, k = 2; j < 17; j += 4, k += 2) {
-			cubes[j].vertices[i] = tmp_vertices[i] + k; // x
-			cubes[j].vertices[i+1] = tmp_vertices[i+1]; // y
-			cubes[j].vertices[i+2] = tmp_vertices[i+2] - k; // z
-
-			cubes[j+1].vertices[i] = tmp_vertices[i] - k; // x
-			cubes[j+1].vertices[i+1] = tmp_vertices[i+1]; // y
-			cubes[j+1].vertices[i+2] = tmp_vertices[i+2] + k; // z
-
-			cubes[j+2].vertices[i] = tmp_vertices[i] + k; // x
-			cubes[j+2].vertices[i+1] = tmp_vertices[i+1]; // y
-			cubes[j+2].vertices[i+2] = tmp_vertices[i+2] + k; // z
-
-			cubes[j+3].vertices[i] = tmp_vertices[i] - k; // x
-			cubes[j+3].vertices[i+1] = tmp_vertices[i+1]; // y
-			cubes[j+3].vertices[i+2] = tmp_vertices[i+2] - k; // z
+		int j = 0;
+		for (int x = -6; x < 6; x += 3) {
+			for (int y = -6; y < 6; y += 3) {
+				cubes[j].vertices[i  ] = tmp_vertices[i  ] + x; // x
+				cubes[j].vertices[i+1] = tmp_vertices[i+1]    ; // y
+				cubes[j].vertices[i+2] = tmp_vertices[i+2] + y; // z
+				j++;
+			}
 		}
 	}
 
