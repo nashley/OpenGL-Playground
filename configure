@@ -3,7 +3,7 @@
 printf "CC=gcc
 CFLAGS=-c -O3
 LDLIBS=$(pkg-config --static --libs glfw3 glew) -lm
-LDFLAGS=$(pkg-config --cflags glfw3 glew)
+LDFLAGS=$(pkg-config --cflags glfw3 glew) -I/usr/include/GL
 EXECUTABLE=main
 SOURCES=$(echo $(find src -type f | grep "\.c$"))\n"\
 $'OBJECTS=$(SOURCES:.c=.o)

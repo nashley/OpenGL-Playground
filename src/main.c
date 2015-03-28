@@ -48,9 +48,9 @@ int main() {
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glEnable(GL_DEPTH_TEST); // Enable depth test
 	glDepthFunc(GL_LESS); // Accept frag if closer to camera than former
-	// glEnable(GL_CULL_FACE);
+	glEnable(GL_CULL_FACE);
 		// Cull triangles that arent towards camera
-		// Disables noclip but is faster
+		// Faster because it only renders objects in view
 
 	GLuint vert_arr;
 	glGenVertexArrays(1, &vert_arr);
