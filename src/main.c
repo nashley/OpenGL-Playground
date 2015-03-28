@@ -136,6 +136,7 @@ int main() {
 
 	GLuint matrix = glGetUniformLocation(prog, "MVP");
 	mat4x4 MVP;
+	GLuint line = glGetUniformLocation(prog, "line");
 	////////
 
 	while (
@@ -145,12 +146,15 @@ int main() {
 		// Render
 		////////
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glUseProgram(prog); // Use shaders
 
 		calc_matrices(window, &MVP);
 		glUniformMatrix4fv(matrix, 1, GL_FALSE, &MVP[0][0]);
 
 		for (int j = 0; j < nc; j++) {
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // Draw outlines
+			glUniform1d(line, 1);
+			glUseProgram(prog); // Use shaders
+
 			glEnableVertexAttribArray(0);
 			glBindBuffer(GL_ARRAY_BUFFER, cubes[j].vert_buff);
 			glVertexAttribPointer(
@@ -162,6 +166,11 @@ int main() {
 				(void*) 0           // array buffer offset
 			);
 			glDrawArrays(GL_TRIANGLES, 0, 12*3);
+
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // Draw colors
+			glUniform1d(line, 0);
+			glUseProgram(prog); // Shaders again
+			glDrawArrays(GL_TRIANGLES, 0, 12*3); // Redraw
 		}
 
 		glDisableVertexAttribArray(0);
