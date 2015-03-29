@@ -113,13 +113,13 @@ int main() {
 	cube cubes[nc];
 
 	int inc = 2; // increment
-	float bound = 16.0f * inc; // 16, 2; 64, 4; 256, 8; 1024, 16
+	float bound = 16.0f * inc; // 16, 2; 64, 4; 256, 8; 1024, 16; 16384, 64
 	for (int i = 0; i < 108; i += 3) {
 		int j = 0;
 		float y;
 		for (float x = -bound; x < bound; x += inc) {
 			for (float z = -bound; z < bound; z += inc) {
-				y = -4 * log(fabs(z) + fabs(x) + 1);
+				y = -4 * log(fabs(z) + fabs(x) + 1) / log(1.8); // log(x) / log(b) same as log(b, x)
 				cubes[j].vertices[i  ] = tmp_vertices[i  ] + x; // x
 				cubes[j].vertices[i+1] = tmp_vertices[i+1] + y; // y
 				cubes[j].vertices[i+2] = tmp_vertices[i+2] + z; // z
@@ -146,15 +146,12 @@ int main() {
 		// Render
 		////////
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glUseProgram(prog); // Use shaders
 
 		calc_matrices(window, &MVP);
 		glUniformMatrix4fv(matrix, 1, GL_FALSE, &MVP[0][0]);
 
 		for (int j = 0; j < nc; j++) {
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // Draw outlines
-			glUniform1d(line, 1);
-			glUseProgram(prog); // Use shaders
-
 			glEnableVertexAttribArray(0);
 			glBindBuffer(GL_ARRAY_BUFFER, cubes[j].vert_buff);
 			glVertexAttribPointer(
@@ -166,11 +163,6 @@ int main() {
 				(void*) 0           // array buffer offset
 			);
 			glDrawArrays(GL_TRIANGLES, 0, 12*3);
-
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // Draw colors
-			glUniform1d(line, 0);
-			glUseProgram(prog); // Shaders again
-			glDrawArrays(GL_TRIANGLES, 0, 12*3); // Redraw
 		}
 
 		glDisableVertexAttribArray(0);
