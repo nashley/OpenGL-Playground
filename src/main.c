@@ -112,7 +112,7 @@ int main() {
 	int nc = 16384; // Number of cubes
 	cube cubes[nc];
 
-	int inc = 2; // increment
+	float inc = .7; // increment
 	printf("%f\n", pow(nc,.5)/2);
 	float bound = pow(nc,.5)/2 * inc; // 16, 2; 64, 4; 256, 8; 1024, 16; 16384, 64
 	for (int i = 0; i < 108; i += 3) {
@@ -120,7 +120,7 @@ int main() {
 		float y;
 		for (float x = -bound; x < bound; x += inc) {
 			for (float z = -bound; z < bound; z += inc) {
-				y = -4 * log(fabs(z) + fabs(x) + 1) / log(1.8); // log(x) / log(b) same as log(b, x)
+				y = tan(fabs(x)+fabs(z)); // log(x) / log(b) same as log(b, x)
 				cubes[j].vertices[i  ] = tmp_vertices[i  ] + x; // x
 				cubes[j].vertices[i+1] = tmp_vertices[i+1] + y; // y
 				cubes[j].vertices[i+2] = tmp_vertices[i+2] + z; // z
