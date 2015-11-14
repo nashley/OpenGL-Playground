@@ -17,14 +17,14 @@ int main() {
 		return -1;
 	}
 
-	glfwWindowHint(GLFW_SAMPLES, 4); // 4x antialiasing
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_SAMPLES, 16); // 4x antialiasing
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
 	GLFWwindow* window;
-	window = glfwCreateWindow(1024, 768, "Hello, World", NULL, NULL);
+	window = glfwCreateWindow(1920, 1080, "Hello, World", NULL, NULL);
 	if (!window) {
 		fprintf(stderr, "glfw: failed to create window\n");
 		glfwTerminate();
