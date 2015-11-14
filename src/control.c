@@ -6,6 +6,7 @@ void calc_matrices(GLFWwindow* window, mat4x4* M) {
 		last_time = glfwGetTime();
 	double curr_time = glfwGetTime();
 	float delta_time = (float) (curr_time - last_time);
+	printf("FPS:\t%2.2f\n",pow(delta_time,-1));
 	last_time = curr_time;
 
 	static float hang = M_PI * 4.0f / 3.0f; // Horizontal angle (toward -Z)
@@ -19,11 +20,11 @@ void calc_matrices(GLFWwindow* window, mat4x4* M) {
 	double xpos, ypos;
 
 	glfwGetCursorPos(window, &xpos, &ypos);
-	glfwSetCursorPos(window, 1024/2, 768/2); // Reset mouse
+	glfwSetCursorPos(window, 1920/2, 1080/2); // Reset mouse
 
 	// New orientation
-	hang += (float) (1024/2 - xpos) / mouse_speed_factor;
-	vang += (float) ( 768/2 - ypos) / mouse_speed_factor;
+	hang += (float) (1920/2 - xpos) / mouse_speed_factor;
+	vang += (float) ( 1080/2 - ypos) / mouse_speed_factor;
 
 	vec3 dir = {
 		cosf(vang) * sinf(hang),
@@ -75,9 +76,9 @@ void calc_matrices(GLFWwindow* window, mat4x4* M) {
 	mat4x4_perspective(
 		projection,
 		fov,         // in radians
-		4.0f / 3.0f, // 4:3 ratio
-		0.1f,        // display range : 0.1 unit <-> 100 units
-		100.0f
+		16.0f / 9.0f, // 4:3 ratio
+		0.001f,        // display range : 0.1 unit <-> 100 units
+		100000.0f
 	);
 	vec3 center;
 	vec3_add(center, pos, dir);

@@ -43,7 +43,7 @@ int main() {
 	// Pre loop
 	////////
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
-	glfwSetCursorPos(window, 1024/2, 768/2);
+	glfwSetCursorPos(window, 1920/2, 1080/2);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -109,11 +109,12 @@ int main() {
 	cube c1;
 	cube c2;
 
-	int nc = 1024; // Number of cubes
+	int nc = 16384; // Number of cubes
 	cube cubes[nc];
 
 	int inc = 2; // increment
-	float bound = 16.0f * inc; // 16, 2; 64, 4; 256, 8; 1024, 16; 16384, 64
+	printf("%f\n", pow(nc,.5)/2);
+	float bound = pow(nc,.5)/2 * inc; // 16, 2; 64, 4; 256, 8; 1024, 16; 16384, 64
 	for (int i = 0; i < 108; i += 3) {
 		int j = 0;
 		float y;
